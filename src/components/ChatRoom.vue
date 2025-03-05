@@ -35,6 +35,7 @@
 import { ref, reactive, onUnmounted, nextTick } from 'vue'
 import SockJS from 'sockjs-client'
 import { Client } from '@stomp/stompjs'
+import Swal from 'sweetalert2' // 引入 SweetAlert2
 
 // ------------ 状态管理 ------------
 const username = ref('') // 当前用户名
@@ -76,16 +77,29 @@ const connect = () => {
 // 设置用户名
 const setUsername = () => {
   if (tempUsername.value.trim() === "") {
-    alert("用户名不能为空");
+    // 使用 SweetAlert2 替代原生 alert
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '用户名不能为空',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
     return;
   }
   if (tempPassword.value.trim() === "") {
-    alert("密码不能为空");
+    // 使用 SweetAlert2 替代原生 alert
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '密码不能为空',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
     return;
   }
   username.value = tempUsername.value.trim();
   password.value = tempPassword.value.trim();
-
   connect(); // 连接WebSocket
 }
 
