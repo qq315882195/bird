@@ -2,8 +2,9 @@
   <div class="chat-container">
     <!-- 用户名称输入 -->
     <div v-if="!username" class="username-input">
-      <input v-model="tempUsername" placeholder="请输入用户名" @keyup.enter="setUsername" />
-      <button @click="setUsername">加入聊天室</button>
+      <input v-model="tempUsername" placeholder="请输入用户名" />
+      <input v-model="tempPassword" placeholder="请输入密码" @keyup.enter="setUsername" />
+      <button @click="setUsername">登录聊天室</button>
     </div>
 
     <!-- 聊天主界面 -->
@@ -19,7 +20,6 @@
             <span class="message-time">{{ msg.time }}</span>
             <span class="message-content">{{ msg.content }}</span>
           </div>
-          <span class="message-sender">{{ msg.sender }}</span>
         </div>
       </div>
 
@@ -38,7 +38,9 @@ import { Client } from '@stomp/stompjs'
 
 // ------------ 状态管理 ------------
 const username = ref('') // 当前用户名
+const password = ref('') // 当前用户名
 const tempUsername = ref('') // 临时用户名输入
+const tempPassword = ref('') // 临时用户名输入
 const newMessage = ref('') // 新消息输入
 const messages = reactive([]) // 消息列表
 const messageList = ref(null) // 消息容器的DOM引用
@@ -73,10 +75,18 @@ const connect = () => {
 // ------------ 功能方法 ------------
 // 设置用户名
 const setUsername = () => {
-  if (tempUsername.value.trim()) {
-    username.value = tempUsername.value.trim()
-    connect() // 连接WebSocket
+  if (tempUsername.value.trim() === "") {
+    alert("用户名不能为空");
+    return;
   }
+  if (tempPassword.value.trim() === "") {
+    alert("密码不能为空");
+    return;
+  }
+  username.value = tempUsername.value.trim();
+  password.value = tempPassword.value.trim();
+
+  connect(); // 连接WebSocket
 }
 
 // 发送消息
@@ -170,15 +180,14 @@ h1 {
 /* ========== 弹性输入区域 ========== */
 .username-input {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   gap: 1rem;
-  justify-content: center;
   padding: 2rem;
 }
 
 .username-input input {
-  flex: 1 1 200px;
-  min-width: 60%;
+  width: 100%;
   max-width: 400px;
   padding: 0.8rem;
   border: none;
@@ -193,6 +202,8 @@ h1 {
 }
 
 .username-input button {
+  width: 100%;
+  max-width: 400px;
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 0.5rem;
@@ -266,9 +277,10 @@ h1 {
 .message-time {
   font-size: clamp(10px, 1.6vw, 12px);
   color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   opacity: 0;
   transition: opacity 0.3s ease;
+  line-height: 0; /* 设置行高为0.8rem */
 }
 
 /* 鼠标悬浮时显示时间 */
