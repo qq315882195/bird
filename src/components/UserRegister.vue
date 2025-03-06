@@ -1,13 +1,21 @@
 <template>
-  <div class="chat-container">、
+  <div class="chat-container">
     <h1>注册新用户</h1>
     <!-- 注册表单 -->
     <div class="username-input">
-
       <input v-model="username" placeholder="请输入用户名" />
       <input v-model="password" placeholder="请输入密码" type="password" />
-      <input v-model="confirmPassword" placeholder="请确认密码" type="password" @keyup.enter="userRegister" />
-      <button @click="userRegister">注册</button>
+      <input v-model="confirmPassword" placeholder="请确认密码" type="password" />
+
+      <!-- 验证码输入框和获取验证码按钮 -->
+      <div class="captcha-wrapper">
+        <input v-model="captcha" placeholder="请输入验证码" />
+        <button class="captcha-button" @click="getCaptcha" :disabled="isCaptchaLoading">
+          {{ isCaptchaLoading ? '获取中...' : '获取验证码' }}
+        </button>
+      </div>
+
+      <button class="register-button" @click="userRegister">注册</button>
       <p class="login-link">
         已有账号？<a href="/">去登录</a>
       </p>
@@ -24,6 +32,44 @@ import axios from 'axios';
 const username = ref(''); // 用户名
 const password = ref(''); // 密码
 const confirmPassword = ref(''); // 确认密码
+const captcha = ref(''); // 验证码
+const isCaptchaLoading = ref(false); // 是否正在获取验证码
+
+// ------------ 获取验证码 ------------
+const getCaptcha = async () => {
+  try {
+    isCaptchaLoading.value = true; // 禁用按钮，防止重复点击
+    const response = await axios.get('http://localhost:8082/captcha/getCaptcha'); // 调用获取验证码接口
+    if (response.data.code === "0000") {
+      // 假设后端返回验证码图片的 URL
+      Swal.fire({
+        icon: 'info',
+        title: '验证码已发送',
+        text: response.data.message,
+        timer: 1000,
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: '获取验证码失败',
+        text: response.data.message,
+        confirmButtonText: '确定',
+        confirmButtonColor: '#4a90e2',
+      });
+    }
+  } catch (error) {
+    console.error('获取验证码失败:', error);
+    Swal.fire({
+      icon: 'error',
+      title: '请求失败',
+      text: '无法连接到服务器，请稍后重试',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+  } finally {
+    isCaptchaLoading.value = false; // 恢复按钮状态
+  }
+};
 
 // ------------ 注册逻辑 ------------
 const userRegister = async () => {
@@ -57,10 +103,40 @@ const userRegister = async () => {
     });
     return;
   }
+  if (captcha.value.trim() === "") {
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '验证码不能为空',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+    return;
+  }
 
   try {
-    // 发送注册请求
-    const response = await axios.post('http://localhost:8082/account/createAccount', {
+    // 先验证验证码
+    const verifyResponse = await axios.post('http://localhost:8082/verifyCaptcha', {
+      captcha: captcha.value.trim(),
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (verifyResponse.data.code !== "0000") {
+      Swal.fire({
+        icon: 'error',
+        title: '验证码错误',
+        text: verifyResponse.data.message,
+        confirmButtonText: '确定',
+        confirmButtonColor: '#4a90e2',
+      });
+      return;
+    }
+
+    // 验证码通过后，发送注册请求
+    const registerResponse = await axios.post('http://localhost:8082/account/createAccount', {
       username: username.value.trim(),
       password: password.value.trim(),
     }, {
@@ -69,8 +145,8 @@ const userRegister = async () => {
       }
     });
 
-    // 处理响应
-    if (response.data.code === "0000") {
+    // 处理注册响应
+    if (registerResponse.data.code === "0000") {
       Swal.fire({
         icon: 'success',
         title: '注册成功',
@@ -89,7 +165,7 @@ const userRegister = async () => {
       Swal.fire({
         icon: 'error',
         title: '注册失败',
-        text: response.data.message,
+        text: registerResponse.data.message,
         confirmButtonText: '确定',
         confirmButtonColor: '#4a90e2',
       });
@@ -186,21 +262,61 @@ h1 {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.username-input button {
+/* ========== 验证码输入框和按钮 ========== */
+.captcha-wrapper {
+  display: flex;
+  gap: 1rem;
   width: 100%;
   max-width: 400px;
+}
+
+.captcha-wrapper input {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.captcha-button {
+  flex-shrink: 0;
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 0.5rem;
-  background: #4a90e2;
+  background: #ff6b6b; /* 验证码按钮背景色 */
   color: #ffffff;
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
-.username-input button:hover {
-  background: #357abd;
+.captcha-button:hover {
+  background: #ff5252; /* 验证码按钮悬停背景色 */
+}
+
+.captcha-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ========== 注册按钮 ========== */
+.register-button {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #4a90e2; /* 注册按钮背景色 */
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.register-button:hover {
+  background: #357abd; /* 注册按钮悬停背景色 */
 }
 
 /* ========== 登录链接 ========== */
