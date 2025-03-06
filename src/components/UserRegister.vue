@@ -58,7 +58,6 @@ const getCaptcha = async () => {
   if (!validatePhone(phone.value)) {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '请输入有效的手机号',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -68,14 +67,12 @@ const getCaptcha = async () => {
   if (!validateEmail(email.value)) {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '请输入有效的邮箱',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
     });
     return;
   }
-
   try {
     isCaptchaLoading.value = true; // 禁用按钮，防止重复点击
 
@@ -92,8 +89,7 @@ const getCaptcha = async () => {
     if (response.data.code === "0000") {
       Swal.fire({
         icon: 'info',
-        title: '验证码已发送',
-        text: response.data.message,
+        text: '验证码已发送',
         timer: 1000,
         showConfirmButton: false,
         showCloseButton: true,
@@ -110,7 +106,6 @@ const getCaptcha = async () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: '获取验证码失败',
         text: response.data.message,
         confirmButtonText: '确定',
         confirmButtonColor: '#4a90e2',
@@ -120,7 +115,6 @@ const getCaptcha = async () => {
     console.error('获取验证码失败:', error);
     Swal.fire({
       icon: 'error',
-      title: '请求失败',
       text: '无法连接到服务器，请稍后重试',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -135,7 +129,6 @@ const userRegister = async () => {
   if (username.value.trim() === "") {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '姓名不能为空',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -145,7 +138,6 @@ const userRegister = async () => {
   if (account.value.trim() === "") {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '账号不能为空',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -155,7 +147,6 @@ const userRegister = async () => {
   if (password.value.trim() === "") {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '密码不能为空',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -165,7 +156,6 @@ const userRegister = async () => {
   if (captcha.value.trim() === "") {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '验证码不能为空',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -188,7 +178,6 @@ const userRegister = async () => {
     if (verifyResponse.data.code !== "0000") {
       Swal.fire({
         icon: 'error',
-        title: '验证码错误',
         text: verifyResponse.data.message,
         showConfirmButton: false,
         showCloseButton: true,
@@ -214,8 +203,7 @@ const userRegister = async () => {
     if (registerResponse.data.code === "0000") {
       Swal.fire({
         icon: 'success',
-        title: '注册成功',
-        text: '请登录以继续',
+        text: '注册成功，请登录以继续',
         confirmButtonText: '去登录',
         confirmButtonColor: '#4a90e2',
         didOpen: () => {
@@ -229,7 +217,6 @@ const userRegister = async () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: '注册失败',
         text: registerResponse.data.message,
         confirmButtonText: '确定',
         confirmButtonColor: '#4a90e2',
@@ -239,7 +226,6 @@ const userRegister = async () => {
     console.error('注册请求失败:', error);
     Swal.fire({
       icon: 'error',
-      title: '请求失败',
       text: '无法连接到服务器，请稍后重试',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',

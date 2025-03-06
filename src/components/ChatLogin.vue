@@ -30,7 +30,6 @@ const setUsername = async () => {
   if (tempUsername.value.trim() === "") {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '账号不能为空',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -40,7 +39,6 @@ const setUsername = async () => {
   if (tempPassword.value.trim() === "") {
     Swal.fire({
       icon: 'error',
-      title: '错误',
       text: '密码不能为空',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
@@ -66,14 +64,14 @@ const setUsername = async () => {
       } else if(response.data.code==="0001"||response.data.code==="1001"){
         Swal.fire({
           icon: 'error',
-          title: response.data.message,
+          text: response.data.message,
           confirmButtonText: '确定',
           confirmButtonColor: '#4a90e2',
         });
       }else if(response.data.code==="1002"){
         Swal.fire({
           icon: 'warning',
-          title: response.data.message,
+          text: response.data.message,
           confirmButtonText: '前往注册',
           confirmButtonColor: '#4a90e2',
           showCloseButton: true,
@@ -97,7 +95,6 @@ const setUsername = async () => {
     console.error('AJAX请求失败:', error);
     Swal.fire({
       icon: 'error',
-      title: '请求失败',
       text: '无法连接到服务器，请稍后重试',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
