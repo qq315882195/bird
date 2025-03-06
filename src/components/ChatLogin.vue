@@ -1,92 +1,110 @@
 <template>
   <div class="chat-container">
-    <!-- 聊天主界面 -->
-    <div  class="chat-main">
-      <div class="message-list" ref="messageList">
-        <div
-            v-for="(msg, index) in messages"
-            :key="index"
-            class="message-item"
-            :class="{ 'message-item-right': msg.sender === username, 'message-item-left': msg.sender !== username }"
-        >
-          <div class="message-content-wrapper">
-            <span class="message-time">{{ msg.time }}</span>
-            <span class="message-content">{{ msg.content }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="message-input">
-        <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="输入消息..." />
-        <button @click="sendMessage">发送</button>
-      </div>
+    <h1 style="text-align: center">欢迎来到智能AI聊天室</h1>
+    <!-- 账号称输入 -->
+    <div  class="username-input">
+      <input v-model="tempUsername" placeholder="请输入账号" />
+      <input v-model="tempPassword" placeholder="请输入密码" />
+      <button @click="setUsername">登录聊天室</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onUnmounted, nextTick } from 'vue'
-import SockJS from 'sockjs-client'
-import { Client } from '@stomp/stompjs'
+import { useRouter } from 'vue-router'; // 导入 useRouter
+import { ref, onUnmounted } from 'vue'
+import Swal from 'sweetalert2' // 引入 SweetAlert2
+import axios from 'axios' // 引入 axios
 
 // ------------ 状态管理 ------------
 const username = ref('') // 当前账号
-const newMessage = ref('') // 新消息输入
-const messages = reactive([]) // 消息列表
-const messageList = ref(null) // 消息容器的DOM引用
+const tempUsername = ref('') // 临时账号输入
+const tempPassword = ref('') // 临时账号输入
+const router = useRouter(); // 获取路由实例
 // ------------ WebSocket 连接 ------------
 let stompClient = null
 
-// 连接WebSocket
-const connect = () => {
-  const socket = new SockJS('http://localhost:8082/ws-chat') // 后端WebSocket地址
-  stompClient = new Client({
-    webSocketFactory: () => socket,
-    reconnectDelay: 50000,
-    heartbeatIncoming: 40000,
-    heartbeatOutgoing: 40000,
-    onConnect: () => {
-      stompClient.subscribe('/topic/messages', (message) => {
-        const msg = JSON.parse(message.body)
-        console.log('msg', msg);
-        messages.push(msg);
-        scrollToBottom()
-      })
-    },
-    onStompError: (frame) => {
-      console.error('WebSocket连接错误:', frame.headers.message)
-    },
-  })
-  console.log('stompClient', stompClient);
-  stompClient.activate()
-}
-connect();
 // ------------ 功能方法 ------------
+// 设置账号
+const setUsername = async () => {
+  if (tempUsername.value.trim() === "") {
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '账号不能为空',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+    return;
+  }
+  if (tempPassword.value.trim() === "") {
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '密码不能为空',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+    return;
+  }
 
-// 发送消息
-const sendMessage = () => {
-  if (newMessage.value.trim() && stompClient?.connected) {
-    const message = {
-      sender: username.value,
-      content: newMessage.value.trim(),
-      time: new Date().toLocaleTimeString()
-    }
-    stompClient.publish({
-      destination: '/app/chat',
-      body: JSON.stringify(message)
+  try {
+    // 发送 AJAX 请求
+    await axios.post('http://localhost:8082/account/login', {
+      account: tempUsername.value.trim(),
+      password: tempPassword.value.trim(),
+    }, {
+      headers: {
+        'Content-Type': 'application/json', // 设置请求头
+      }
+    }).then(response => {
+      console.log('响应数据:', response);
+      // 处理响应
+      if (response.data.code==="0000" && response.data.data) {
+        username.value = response.data.data.name;
+        router.push('/chatRoom'); // 跳转到聊天室页面
+      } else if(response.data.code==="0001"||response.data.code==="1001"){
+        Swal.fire({
+          icon: 'error',
+          title: response.data.message,
+          confirmButtonText: '确定',
+          confirmButtonColor: '#4a90e2',
+        });
+      }else if(response.data.code==="1002"){
+        Swal.fire({
+          icon: 'warning',
+          title: response.data.message,
+          confirmButtonText: '前往注册',
+          confirmButtonColor: '#4a90e2',
+          showCloseButton: true,
+          didOpen: () => {
+            // 获取确认按钮
+            const confirmButton = Swal.getConfirmButton();
+            // 为确认按钮添加点击事件
+            confirmButton.addEventListener('click', () => {
+              console.log('确认按钮被点击了');
+              // 在这里添加点击确认按钮后的逻辑
+              // 跳转到注册页面
+              // 使用 router.push 跳转到注册页面
+              router.push('/userRegister');
+            });
+          }
+        });
+      }
     })
-    messages.push(message);
-    newMessage.value = ''
+
+  } catch (error) {
+    console.error('AJAX请求失败:', error);
+    Swal.fire({
+      icon: 'error',
+      title: '请求失败',
+      text: '无法连接到服务器，请稍后重试',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
   }
 }
 
-// 滚动到底部
-const scrollToBottom = async () => {
-  await nextTick()
-  if (messageList.value) {
-    messageList.value.scrollTop = messageList.value.scrollHeight
-  }
-}
 
 // ------------ 生命周期 ------------
 onUnmounted(() => {

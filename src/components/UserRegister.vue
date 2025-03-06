@@ -3,15 +3,17 @@
     <h1>注册新用户</h1>
     <!-- 注册表单 -->
     <div class="username-input">
-      <input v-model="username" placeholder="请输入用户名" />
+      <input v-model="username" placeholder="请输入姓名" />
+      <input v-model="account" placeholder="请输入账号" />
       <input v-model="password" placeholder="请输入密码" type="password" />
-      <input v-model="confirmPassword" placeholder="请确认密码" type="password" />
+      <input v-model="phone" placeholder="请输入手机号" />
+      <input v-model="email" placeholder="请输入邮箱" />
 
       <!-- 验证码输入框和获取验证码按钮 -->
       <div class="captcha-wrapper">
         <input v-model="captcha" placeholder="请输入验证码" />
-        <button class="captcha-button" @click="getCaptcha" :disabled="isCaptchaLoading">
-          {{ isCaptchaLoading ? '获取中...' : '获取验证码' }}
+        <button class="captcha-button" @click="getCaptcha" :disabled="isCaptchaLoading || countdown > 0">
+          {{ countdown > 0 ? `${countdown}秒后重试` : '获取验证码' }}
         </button>
       </div>
 
@@ -29,25 +31,82 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 // ------------ 状态管理 ------------
-const username = ref(''); // 用户名
+const username = ref(''); // 姓名
+const account = ref(''); // 账号
 const password = ref(''); // 密码
-const confirmPassword = ref(''); // 确认密码
+const phone = ref(''); // 手机号
+const email = ref(''); // 邮箱
 const captcha = ref(''); // 验证码
 const isCaptchaLoading = ref(false); // 是否正在获取验证码
+const countdown = ref(0); // 倒计时
+
+// ------------ 校验手机号 ------------
+const validatePhone = (phone) => {
+  const phoneRegex = /^1[3456789]\d{9}$/; // 中国大陆手机号正则
+  return phoneRegex.test(phone);
+};
+
+// ------------ 校验邮箱 ------------
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 简单邮箱正则
+  return emailRegex.test(email);
+};
 
 // ------------ 获取验证码 ------------
 const getCaptcha = async () => {
+  // 校验手机号和邮箱
+  if (!validatePhone(phone.value)) {
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '请输入有效的手机号',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+    return;
+  }
+  if (!validateEmail(email.value)) {
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '请输入有效的邮箱',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+    return;
+  }
+
   try {
     isCaptchaLoading.value = true; // 禁用按钮，防止重复点击
-    const response = await axios.get('http://localhost:8082/captcha/getCaptcha'); // 调用获取验证码接口
+
+    // 调用获取验证码接口
+    const response = await axios.post('http://localhost:8082/captcha/getCaptcha', {
+      phone: phone.value,
+      email: email.value,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
     if (response.data.code === "0000") {
-      // 假设后端返回验证码图片的 URL
       Swal.fire({
         icon: 'info',
         title: '验证码已发送',
         text: response.data.message,
         timer: 1000,
+        showConfirmButton: false,
+        showCloseButton: true,
       });
+
+      // 开始倒计时
+      countdown.value = 60;
+      const timer = setInterval(() => {
+        countdown.value--;
+        if (countdown.value <= 0) {
+          clearInterval(timer);
+        }
+      }, 1000);
     } else {
       Swal.fire({
         icon: 'error',
@@ -77,7 +136,17 @@ const userRegister = async () => {
     Swal.fire({
       icon: 'error',
       title: '错误',
-      text: '用户名不能为空',
+      text: '姓名不能为空',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+    return;
+  }
+  if (account.value.trim() === "") {
+    Swal.fire({
+      icon: 'error',
+      title: '错误',
+      text: '账号不能为空',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
     });
@@ -88,16 +157,6 @@ const userRegister = async () => {
       icon: 'error',
       title: '错误',
       text: '密码不能为空',
-      confirmButtonText: '确定',
-      confirmButtonColor: '#4a90e2',
-    });
-    return;
-  }
-  if (password.value !== confirmPassword.value) {
-    Swal.fire({
-      icon: 'error',
-      title: '错误',
-      text: '两次输入的密码不一致',
       confirmButtonText: '确定',
       confirmButtonColor: '#4a90e2',
     });
@@ -116,8 +175,10 @@ const userRegister = async () => {
 
   try {
     // 先验证验证码
-    const verifyResponse = await axios.post('http://localhost:8082/verifyCaptcha', {
+    const verifyResponse = await axios.post('http://localhost:8082/captcha/verifyCaptcha', {
       captcha: captcha.value.trim(),
+      email: email.value.trim(),
+      phone: phone.value.trim()
     }, {
       headers: {
         'Content-Type': 'application/json',
@@ -129,8 +190,9 @@ const userRegister = async () => {
         icon: 'error',
         title: '验证码错误',
         text: verifyResponse.data.message,
-        confirmButtonText: '确定',
-        confirmButtonColor: '#4a90e2',
+        showConfirmButton: false,
+        showCloseButton: true,
+        timer: 1000
       });
       return;
     }
@@ -139,6 +201,9 @@ const userRegister = async () => {
     const registerResponse = await axios.post('http://localhost:8082/account/createAccount', {
       username: username.value.trim(),
       password: password.value.trim(),
+      account: account.value.trim(),
+      phone: phone.value.trim(),
+      email: email.value.trim(),
     }, {
       headers: {
         'Content-Type': 'application/json',
