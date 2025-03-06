@@ -39,7 +39,7 @@ let stompClient = null
 
 // 连接WebSocket
 const connect = () => {
-  const socket = new SockJS('http://localhost:8082/ws-chat') // 后端WebSocket地址
+  const socket = new SockJS('http://127.0.0.1:8082/ws-chat') // 后端WebSocket地址
   stompClient = new Client({
     webSocketFactory: () => socket,
     reconnectDelay: 50000,
@@ -65,6 +65,7 @@ connect();
 
 // 发送消息
 const sendMessage = () => {
+  console.log('sendMessage',stompClient?.connected);
   if (newMessage.value.trim() && stompClient?.connected) {
     const message = {
       sender: username.value,
