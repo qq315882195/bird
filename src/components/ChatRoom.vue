@@ -1,5 +1,6 @@
 <template>
   <div class="chat-container">
+    <h1 style="text-align: center">欢迎来到智能AI聊天室</h1>
     <!-- 用户名称输入 -->
     <div v-if="!username" class="username-input">
       <input v-model="tempUsername" placeholder="请输入用户名" />
@@ -32,20 +33,21 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'; // 导入 useRouter
 import { ref, reactive, onUnmounted, nextTick } from 'vue'
 import SockJS from 'sockjs-client'
 import { Client } from '@stomp/stompjs'
 import Swal from 'sweetalert2' // 引入 SweetAlert2
+import axios from 'axios' // 引入 axios
 
 // ------------ 状态管理 ------------
 const username = ref('') // 当前用户名
-const password = ref('') // 当前用户名
 const tempUsername = ref('') // 临时用户名输入
 const tempPassword = ref('') // 临时用户名输入
 const newMessage = ref('') // 新消息输入
 const messages = reactive([]) // 消息列表
 const messageList = ref(null) // 消息容器的DOM引用
-
+const router = useRouter(); // 获取路由实例
 // ------------ WebSocket 连接 ------------
 let stompClient = null
 
@@ -67,7 +69,7 @@ const connect = () => {
     },
     onStompError: (frame) => {
       console.error('WebSocket连接错误:', frame.headers.message)
-    }
+    },
   })
   console.log('stompClient', stompClient);
   stompClient.activate()
@@ -75,9 +77,8 @@ const connect = () => {
 
 // ------------ 功能方法 ------------
 // 设置用户名
-const setUsername = () => {
+const setUsername = async () => {
   if (tempUsername.value.trim() === "") {
-    // 使用 SweetAlert2 替代原生 alert
     Swal.fire({
       icon: 'error',
       title: '错误',
@@ -88,7 +89,6 @@ const setUsername = () => {
     return;
   }
   if (tempPassword.value.trim() === "") {
-    // 使用 SweetAlert2 替代原生 alert
     Swal.fire({
       icon: 'error',
       title: '错误',
@@ -98,9 +98,62 @@ const setUsername = () => {
     });
     return;
   }
-  username.value = tempUsername.value.trim();
-  password.value = tempPassword.value.trim();
-  connect(); // 连接WebSocket
+
+  try {
+    // 发送 AJAX 请求
+    await axios.post('http://localhost:8082/account/login', {
+      account: tempUsername.value.trim(),
+      password: tempPassword.value.trim(),
+    }, {
+      headers: {
+        'Content-Type': 'application/json', // 设置请求头
+      }
+    }).then(response => {
+      console.log('响应数据:', response);
+      // 处理响应
+      if (response.data.code==="0000" && response.data.data) {
+        username.value = response.data.data.name;
+        connect(); // 连接WebSocket
+      } else if(response.data.code==="0001"||response.data.code==="1001"){
+        Swal.fire({
+          icon: 'error',
+          title: response.data.message,
+          confirmButtonText: '确定',
+          confirmButtonColor: '#4a90e2',
+        });
+      }else if(response.data.code==="1002"){
+        Swal.fire({
+          icon: 'warning',
+          title: response.data.message,
+          confirmButtonText: '前往注册',
+          confirmButtonColor: '#4a90e2',
+          showCloseButton: true,
+          didOpen: () => {
+            // 获取确认按钮
+            const confirmButton = Swal.getConfirmButton();
+            // 为确认按钮添加点击事件
+            confirmButton.addEventListener('click', () => {
+              console.log('确认按钮被点击了');
+              // 在这里添加点击确认按钮后的逻辑
+              // 跳转到注册页面
+              // 使用 router.push 跳转到注册页面
+              router.push('/userRegister');
+            });
+          }
+        });
+      }
+    })
+
+  } catch (error) {
+    console.error('AJAX请求失败:', error);
+    Swal.fire({
+      icon: 'error',
+      title: '请求失败',
+      text: '无法连接到服务器，请稍后重试',
+      confirmButtonText: '确定',
+      confirmButtonColor: '#4a90e2',
+    });
+  }
 }
 
 // 发送消息
@@ -197,7 +250,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  padding: 2rem;
+  padding: 15rem;
 }
 
 .username-input input {

@@ -9,12 +9,14 @@
   },
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
+    "axios": "^1.8.1",
     "core-js": "^3.8.3",
     "socket.io-client": "^4.8.1",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
     "sweetalert2": "^11.17.2",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
