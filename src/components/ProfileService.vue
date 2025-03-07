@@ -15,10 +15,13 @@
       账号: {{ user.username }}
     </div>
 
-    <!-- 新增按钮：订单和购物车 -->
+    <!-- 新增按钮：订单和退出 -->
     <div class="button-container">
       <button class="profile-button" @click="goToOrders">
         <i class="fas fa-list-alt"></i>我的订单
+      </button>
+      <button class="out-button" @click="logout">
+        <i class="fas fa-sign-out-alt"></i>退出
       </button>
     </div>
   </div>
@@ -26,6 +29,8 @@
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router'; // 引入 useRouter
+import Swal  from "sweetalert2";
 
 // 用户信息
 const user = ref({
@@ -44,7 +49,28 @@ const goToOrders = () => {
   }
   console.log('跳转到订单页面');
 };
+
+// 退出登录
+const router = useRouter();
+const logout = () => {
+  //确认机制
+  Swal.fire({
+    text: '确定要退出吗？',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#4a90e2',
+    cancelButtonColor: '#ff6b6b',
+    confirmButtonText: '确定',
+    cancelButtonText: '取消'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // 用户点击了确定按钮
+      router.push('/'); // 假设登录页面的路由是 '/login'
+    }
+  });
+};
 </script>
+
 <style scoped>
 .profile-container {
   display: flex;
@@ -91,12 +117,10 @@ const goToOrders = () => {
   border: none;
   border-radius: 0.5rem;
   color: #ffffff;
-  font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* 图标和文本之间的间距 */
 }
 
 .profile-button:hover {
@@ -104,6 +128,26 @@ const goToOrders = () => {
 }
 
 .profile-button i {
+  font-size: 1.2rem;
+}
+
+.out-button {
+  padding: 0.8rem 2.5rem;
+  background: #ff6b6b;
+  border: none;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.out-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.out-button i {
   font-size: 1.2rem;
 }
 </style>

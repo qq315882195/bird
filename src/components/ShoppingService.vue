@@ -1,5 +1,5 @@
 <template>
-    <h1>商城页面</h1>
+    <h4>商城页面</h4>
 
 </template>
 

@@ -2,7 +2,7 @@
   <div class="order-container">
     <!-- 页面标题 -->
     <div class="page-title">
-      <h1>我的订单</h1>
+      <h2>我的订单</h2>
     </div>
 
     <!-- 订单列表 -->

@@ -25,14 +25,7 @@
 
     <!-- Tab 栏（固定在底部） -->
     <div class="tab-bar">
-      <div
-          class="tab-item"
-          :class="{ active: activeTab === 'chatRoom' }"
-          @click="changeTab('chatRoom')"
-      >
-        <i class="fas fa-comments"></i>
-        <span>联系客服</span>
-      </div>
+
       <div
           class="tab-item"
           :class="{ active: activeTab === 'shop' }"
@@ -48,6 +41,14 @@
       >
         <i class="fas fa-user"></i>
         <span>个人中心</span>
+      </div>
+      <div
+          class="tab-item"
+          :class="{ active: activeTab === 'chatRoom' }"
+          @click="changeTab('chatRoom')"
+      >
+        <i class="fas fa-comments"></i>
+        <span>联系客服</span>
       </div>
     </div>
   </div>
