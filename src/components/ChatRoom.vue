@@ -10,7 +10,7 @@
             :class="{ 'message-item-right': msg.sender === username, 'message-item-left': msg.sender !== username }"
         >
           <div class="message-content-wrapper">
-            <span class="message-time">{{ msg.time }}</span>
+            <span class="message-time">{{ msg.currentTime }}</span>
             <span class="message-content">{{ msg.content }}</span>
           </div>
         </div>
@@ -70,7 +70,7 @@ const sendMessage = () => {
     const message = {
       sender: username.value,
       content: newMessage.value.trim(),
-      time: new Date().toLocaleTimeString()
+      currentTime: new Date().toLocaleTimeString()
     }
     stompClient.publish({
       destination: '/app/chat',
