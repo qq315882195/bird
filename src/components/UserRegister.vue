@@ -1,6 +1,5 @@
 <template>
   <div class="chat-container">
-    <h1>注册新用户</h1>
     <!-- 注册表单 -->
     <div class="username-input">
       <input v-model="username" placeholder="请输入姓名" />
@@ -17,8 +16,12 @@
         </button>
       </div>
 
-      <button class="register-button" @click="userRegister">注册</button>
-      <button class="register-button" @click="goBack">返回</button>
+      <!-- 注册和返回按钮 -->
+      <div class="button-group">
+        <button class="register-button" @click="userRegister">注册</button>
+        <button class="back-button" @click="goBack">返回</button>
+      </div>
+
       <p class="login-link">
         已有账号？<a href="/">去登录</a>
       </p>
@@ -389,5 +392,46 @@ h1 {
 
 .login-link a:hover {
   text-decoration: underline;
+}
+/* ========== 按钮组 ========== */
+.button-group {
+  display: flex;
+  gap: 1rem; /* 按钮之间的间距 */
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ========== 注册按钮 ========== */
+.register-button {
+  flex: 1; /* 均匀分布 */
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #50c878; /* 蓝色 */
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.register-button:hover {
+  background: #3cb371; /* 深蓝色 */
+}
+
+/* ========== 返回按钮 ========== */
+.back-button {
+  flex: 1; /* 均匀分布 */
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #4a90e2; /* 红色 */
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.back-button:hover {
+  background: #357abd; /* 深红色 */
 }
 </style>

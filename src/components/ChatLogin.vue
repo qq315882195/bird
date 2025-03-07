@@ -1,11 +1,13 @@
 <template>
   <div class="chat-container">
     <!-- 账号称输入 -->
-    <div  class="username-input">
+    <div class="username-input">
       <input v-model="tempUsername" placeholder="请输入账号" />
       <input v-model="tempPassword" placeholder="请输入密码" />
-      <button @click="setUsername">登录</button>
-      <button @click="goRegister">注册</button>
+      <div class="button-group">
+        <button class="login-button" @click="setUsername">登录</button>
+        <button class="register-button" @click="goRegister">注册</button>
+      </div>
     </div>
   </div>
 </template>
@@ -195,23 +197,6 @@ h1 {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.username-input button {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  background: #4a90e2;
-  color: #ffffff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.username-input button:hover {
-  background: #357abd;
-}
-
 /* ========== 响应式消息列表 ========== */
 .message-list {
   flex: 1;
@@ -375,5 +360,46 @@ button {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 0.5rem;
   color: #ffffff;
+}
+/* ========== 按钮组 ========== */
+.button-group {
+  display: flex;
+  gap: 1rem; /* 按钮之间的间距 */
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ========== 登录按钮 ========== */
+.login-button {
+  flex: 1; /* 均匀分布 */
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #4a90e2; /* 蓝色 */
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-button:hover {
+  background: #357abd; /* 深蓝色 */
+}
+
+/* ========== 注册按钮 ========== */
+.register-button {
+  flex: 1; /* 均匀分布 */
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #50c878; /* 绿色 */
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.register-button:hover {
+  background: #3cb371; /* 深绿色 */
 }
 </style>
