@@ -1,11 +1,11 @@
 <template>
   <div class="chat-container">
-    <h1 style="text-align: center">欢迎来到智能AI聊天室</h1>
     <!-- 账号称输入 -->
     <div  class="username-input">
       <input v-model="tempUsername" placeholder="请输入账号" />
       <input v-model="tempPassword" placeholder="请输入密码" />
-      <button @click="setUsername">登录聊天室</button>
+      <button @click="setUsername">登录</button>
+      <button @click="goRegister">注册</button>
     </div>
   </div>
 </template>
@@ -25,6 +25,11 @@ const router = useRouter(); // 获取路由实例
 let stompClient = null
 
 // ------------ 功能方法 ------------
+// 设置账号
+const goRegister = async () => {
+  router.push('/userRegister'); // 跳转到注册页面
+  return;
+}
 // 设置账号
 const setUsername = async () => {
   if (tempUsername.value.trim() === "") {

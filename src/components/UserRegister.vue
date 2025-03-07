@@ -18,6 +18,7 @@
       </div>
 
       <button class="register-button" @click="userRegister">注册</button>
+      <button class="register-button" @click="goBack">返回</button>
       <p class="login-link">
         已有账号？<a href="/">去登录</a>
       </p>
@@ -125,6 +126,10 @@ const getCaptcha = async () => {
 };
 
 // ------------ 注册逻辑 ------------
+const goBack= () => {
+  window.location.href = '/';
+  return;
+}
 const userRegister = async () => {
   if (username.value.trim() === "") {
     Swal.fire({
