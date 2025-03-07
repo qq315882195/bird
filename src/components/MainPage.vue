@@ -1,26 +1,21 @@
 <template>
   <div class="chat-container">
-    <!-- 页面标题 -->
-    <h1>主页面</h1>
 
     <!-- Tab 内容 -->
     <div class="tab-content">
       <!-- 客服页面 -->
-      <div v-if="activeTab === 'customerService'" class="tab-pane">
-        <h2>客服页面</h2>
-        <p>这里是客服页面内容。</p>
+      <div v-if="activeTab === 'chatRoom'" class="tab-pane">
+        <ChatRoom></ChatRoom>
       </div>
 
       <!-- 商城页面 -->
       <div v-if="activeTab === 'shop'" class="tab-pane">
-        <h2>商城页面</h2>
-        <p>这里是商城页面内容。</p>
+        <shopping-service>  </shopping-service>
       </div>
 
       <!-- 个人中心页面 -->
       <div v-if="activeTab === 'profile'" class="tab-pane">
-        <h2>个人中心页面</h2>
-        <p>这里是个人中心页面内容。</p>
+        <profile-service></profile-service>
       </div>
     </div>
 
@@ -28,8 +23,8 @@
     <div class="tab-bar">
       <div
           class="tab-item"
-          :class="{ active: activeTab === 'customerService' }"
-          @click="changeTab('customerService')"
+          :class="{ active: activeTab === 'chatRoom' }"
+          @click="changeTab('chatRoom')"
       >
         <span>客服</span>
       </div>
@@ -53,8 +48,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import ShoppingService from "@/components/ShoppingService.vue";
+import ProfileService from "@/components/ProfileService.vue";
+import ChatRoom from "@/components/ChatRoom.vue";
 
-const activeTab = ref('customerService'); // 默认激活的 Tab
+const activeTab = ref('chatRoom'); // 默认激活的 Tab
 
 // 切换 Tab
 const changeTab = (tab) => {
