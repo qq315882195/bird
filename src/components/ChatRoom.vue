@@ -1,5 +1,4 @@
 <template>
-  <div class="chat-container">
     <!-- 聊天主界面 -->
     <div  class="chat-main">
       <div class="message-list" ref="messageList">
@@ -21,7 +20,6 @@
         <button @click="sendMessage">发送</button>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
