@@ -6,13 +6,14 @@ import ChatLogin from "@/components/ChatLogin.vue";
 import MainPage from "@/components/MainPage.vue";
 import ShoppingService from "@/components/ShoppingService.vue";
 import ProfileService from "@/components/ProfileService.vue";
+import OrderList from "@/components/OrderList.vue";
 
 const routes = [
     { path: '/userRegister', component: UserRegister }, // 注册页面
     { path: '/mainPage', component: MainPage }, // 注册页面
     { path: '/chatRoom', component: ChatRoom }, // 聊天页面
     { path: '/', component: ChatLogin }, // 登录页面
-
+    { path: '/orderList', component: OrderList }, // 订单页面
     {
         path: '/shoppingService',
         name: 'shoppingService',

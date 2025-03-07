@@ -14,11 +14,18 @@
     <div class="username">
       账号: {{ user.username }}
     </div>
+
+    <!-- 新增按钮：订单和购物车 -->
+    <div class="button-container">
+      <button class="profile-button" @click="goToOrders">
+        <i class="fas fa-list-alt"></i>我的订单
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 
 // 用户信息
 const user = ref({
@@ -27,8 +34,17 @@ const user = ref({
   username: 'user123'
 });
 
-</script>
+// 获取父组件提供的 changeTab 方法
+const changeTab = inject('changeTab');
 
+// 跳转到订单页面
+const goToOrders = () => {
+  if (changeTab) {
+    changeTab('orderList'); // 切换到订单列表 Tab
+  }
+  console.log('跳转到订单页面');
+};
+</script>
 <style scoped>
 .profile-container {
   display: flex;
@@ -61,15 +77,33 @@ const user = ref({
   margin-bottom: 2rem;
 }
 
-.suggestion-button {
-  padding: 0.8rem 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
+/* 新增按钮容器样式 */
+.button-container {
+  display: flex;
+  gap: 1rem; /* 按钮之间的间距 */
+  margin-top: 1rem;
 }
 
-.suggestion-button:hover {
+/* 按钮样式 */
+.profile-button {
+  padding: 0.8rem 1.5rem;
+  background: #4a90e2;
+  border: none;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* 图标和文本之间的间距 */
+}
+
+.profile-button:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+.profile-button i {
+  font-size: 1.2rem;
 }
 </style>

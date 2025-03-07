@@ -16,6 +16,11 @@
       <div v-if="activeTab === 'profile'" class="tab-pane">
         <profile-service></profile-service>
       </div>
+
+      <!-- 订单列表页面 -->
+      <div v-if="activeTab === 'orderList'" class="tab-pane">
+        <order-list></order-list>
+      </div>
     </div>
 
     <!-- Tab 栏（固定在底部） -->
@@ -25,15 +30,15 @@
           :class="{ active: activeTab === 'chatRoom' }"
           @click="changeTab('chatRoom')"
       >
-        <i class="fas fa-comments"></i> <!-- 使用 Font Awesome 图标 -->
-        <span>客服</span>
+        <i class="fas fa-comments"></i>
+        <span>联系客服</span>
       </div>
       <div
           class="tab-item"
           :class="{ active: activeTab === 'shop' }"
           @click="changeTab('shop')"
       >
-        <i class="fas fa-shopping-cart"></i> <!-- 使用 Font Awesome 图标 -->
+        <i class="fas fa-shopping-cart"></i>
         <span>商城</span>
       </div>
       <div
@@ -41,7 +46,7 @@
           :class="{ active: activeTab === 'profile' }"
           @click="changeTab('profile')"
       >
-        <i class="fas fa-user"></i> <!-- 使用 Font Awesome 图标 -->
+        <i class="fas fa-user"></i>
         <span>个人中心</span>
       </div>
     </div>
@@ -49,10 +54,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
 import ShoppingService from "@/components/ShoppingService.vue";
 import ProfileService from "@/components/ProfileService.vue";
 import ChatRoom from "@/components/ChatRoom.vue";
+import OrderList from "@/components/OrderList.vue"; // 引入订单列表组件
 
 const activeTab = ref('chatRoom'); // 默认激活的 Tab
 
@@ -60,6 +66,9 @@ const activeTab = ref('chatRoom'); // 默认激活的 Tab
 const changeTab = (tab) => {
   activeTab.value = tab;
 };
+
+// 将 changeTab 方法提供给子组件使用
+provide('changeTab', changeTab);
 </script>
 
 <style scoped>
@@ -71,7 +80,7 @@ const changeTab = (tab) => {
   margin: 2vh auto;
   padding: 2rem;
   border-radius: 1.5rem;
-  background: linear-gradient(145deg, rgba(30, 30, 47, 0.8), rgba(42, 42, 64, 0.8)), url('../assets/img.png');
+  background: linear-gradient(145deg, rgba(30, 30, 47, 0.8), rgba(42, 42, 64, 0.8));
   background-size: cover;
   background-position: center;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);

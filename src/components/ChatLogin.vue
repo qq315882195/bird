@@ -127,7 +127,7 @@ onUnmounted(() => {
   margin: 2vh auto;
   padding: 2rem;
   border-radius: 1.5rem;
-  background: linear-gradient(145deg, rgba(30, 30, 47, 0.8), rgba(42, 42, 64, 0.8)), url('../assets/img.png'); /* 替换为阿信的图片链接 */
+  background: linear-gradient(145deg, rgba(30, 30, 47, 0.8), rgba(42, 42, 64, 0.8)); /* 替换为阿信的图片链接 */
   background-size: cover;
   background-position: center;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
