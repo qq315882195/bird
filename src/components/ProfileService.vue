@@ -50,13 +50,13 @@ const user = ref({
 }
 
 .nickname {
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .username {
-  font-size: 1rem;
+  font-size: 2rem;
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 2rem;
 }

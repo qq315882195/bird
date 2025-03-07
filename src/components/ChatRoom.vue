@@ -197,7 +197,7 @@ h1 {
   height: 60vh;
   margin-bottom: 1.5rem;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 7rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
 }

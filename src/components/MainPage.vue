@@ -1,6 +1,5 @@
 <template>
   <div class="chat-container">
-
     <!-- Tab 内容 -->
     <div class="tab-content">
       <!-- 客服页面 -->
@@ -10,7 +9,7 @@
 
       <!-- 商城页面 -->
       <div v-if="activeTab === 'shop'" class="tab-pane">
-        <shopping-service>  </shopping-service>
+        <shopping-service></shopping-service>
       </div>
 
       <!-- 个人中心页面 -->
@@ -19,13 +18,14 @@
       </div>
     </div>
 
-    <!-- Tab 按钮（固定在底部） -->
+    <!-- Tab 栏（固定在底部） -->
     <div class="tab-bar">
       <div
           class="tab-item"
           :class="{ active: activeTab === 'chatRoom' }"
           @click="changeTab('chatRoom')"
       >
+        <i class="fas fa-comments"></i> <!-- 使用 Font Awesome 图标 -->
         <span>客服</span>
       </div>
       <div
@@ -33,6 +33,7 @@
           :class="{ active: activeTab === 'shop' }"
           @click="changeTab('shop')"
       >
+        <i class="fas fa-shopping-cart"></i> <!-- 使用 Font Awesome 图标 -->
         <span>商城</span>
       </div>
       <div
@@ -40,6 +41,7 @@
           :class="{ active: activeTab === 'profile' }"
           @click="changeTab('profile')"
       >
+        <i class="fas fa-user"></i> <!-- 使用 Font Awesome 图标 -->
         <span>个人中心</span>
       </div>
     </div>
@@ -121,7 +123,6 @@ h1 {
   padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
-  margin-bottom: 80px; /* 为底部 Tab 栏留出空间 */
 }
 
 .tab-pane {
@@ -135,7 +136,6 @@ h1 {
   right: 0;
   display: flex;
   justify-content: space-around;
-  padding: 0.5rem 0;
   z-index: 1000;
 }
 
@@ -146,14 +146,18 @@ h1 {
   color: #ffffff;
   cursor: pointer;
   transition: background 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .tab-item.active {
-  background: #4a90e2; /* 激活状态的背景色 */
-  border-radius: 0.5rem;
+  color: #4a90e2; /* 激活状态的颜色 */
 }
 
-.tab-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+
+.tab-item i {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 </style>
