@@ -1,5 +1,11 @@
 <template>
   <div class="profile-container">
+    <!-- 右上角图标 -->
+    <div class="top-right-icons">
+      <i class="fas fa-sign-out-alt icon" @click="logout"></i>
+      <i class="fas fa-headset icon" @click="showCustomerService"></i>
+    </div>
+
     <!-- 头像 -->
     <div class="avatar-container">
       <img src="../assets/img.png" alt="头像" class="avatar" />
@@ -20,9 +26,6 @@
       <button class="profile-button" @click="goToOrders">
         <i class="fas fa-list-alt"></i>我的订单
       </button>
-      <button class="out-button" @click="logout">
-        <i class="fas fa-sign-out-alt"></i>退出
-      </button>
     </div>
   </div>
 </template>
@@ -30,7 +33,8 @@
 <script setup>
 import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router'; // 引入 useRouter
-import Swal  from "sweetalert2";
+import Swal from "sweetalert2";
+import '@fortawesome/fontawesome-free/css/all.css';
 
 // 用户信息
 const user = ref({
@@ -50,10 +54,18 @@ const goToOrders = () => {
   console.log('跳转到订单页面');
 };
 
+// 跳转到聊天页面
+const showCustomerService = () => {
+  if (changeTab) {
+    changeTab('chatRoom'); // 切换到订单列表 Tab
+  }
+  console.log('跳转到聊天页面');
+};
+
 // 退出登录
 const router = useRouter();
 const logout = () => {
-  //确认机制
+  // 确认机制
   Swal.fire({
     text: '确定要退出吗？',
     icon: 'warning',
@@ -69,6 +81,8 @@ const logout = () => {
     }
   });
 };
+
+
 </script>
 
 <style scoped>
@@ -78,6 +92,28 @@ const logout = () => {
   align-items: center;
   padding: 2rem;
   color: #ffffff;
+  position: relative; /* 使右上角图标定位生效 */
+}
+
+/* 右上角图标容器 */
+.top-right-icons {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 1rem; /* 图标之间的间距 */
+}
+
+/* 图标样式 */
+.icon {
+  font-size: 1.5rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon:hover {
+  color: #4a90e2; /* 鼠标悬停时改变颜色 */
 }
 
 .avatar-container {

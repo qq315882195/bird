@@ -21,6 +21,15 @@
       <div v-if="activeTab === 'orderList'" class="tab-pane">
         <order-list></order-list>
       </div>
+      <!-- 我的购物车页面 -->
+      <div v-if="activeTab === 'cart'" class="tab-pane">
+        <my-cart></my-cart>
+      </div>
+
+      <!-- 我的购物车页面 -->
+      <div v-if="activeTab === 'categoryService'" class="tab-pane">
+        <category-service></category-service>
+      </div>
     </div>
 
     <!-- Tab 栏（固定在底部） -->
@@ -31,8 +40,26 @@
           :class="{ active: activeTab === 'shop' }"
           @click="changeTab('shop')"
       >
+
+        <i class="fas fa-home"></i>
+        <span>首页</span>
+      </div>
+      <div
+          class="tab-item"
+          :class="{ active: activeTab === 'categoryService' }"
+          @click="changeTab('categoryService')"
+      >
+
+        <i class="fas fa-th"></i>
+        <span>分类</span>
+      </div>
+      <div
+          class="tab-item"
+          :class="{ active: activeTab === 'cart' }"
+          @click="changeTab('cart')"
+      >
         <i class="fas fa-shopping-cart"></i>
-        <span>商城</span>
+        <span>购物车</span>
       </div>
       <div
           class="tab-item"
@@ -40,15 +67,7 @@
           @click="changeTab('profile')"
       >
         <i class="fas fa-user"></i>
-        <span>个人中心</span>
-      </div>
-      <div
-          class="tab-item"
-          :class="{ active: activeTab === 'chatRoom' }"
-          @click="changeTab('chatRoom')"
-      >
-        <i class="fas fa-comments"></i>
-        <span>联系客服</span>
+        <span>我的</span>
       </div>
     </div>
   </div>
@@ -59,9 +78,11 @@ import { ref, provide } from 'vue';
 import ShoppingService from "@/components/ShoppingService.vue";
 import ProfileService from "@/components/ProfileService.vue";
 import ChatRoom from "@/components/ChatRoom.vue";
-import OrderList from "@/components/OrderList.vue"; // 引入订单列表组件
+import OrderList from "@/components/OrderList.vue";
+import MyCart from "@/components/MyCart.vue"; // 引入订单列表组件
+import CategoryService from "@/components/CategoryService.vue";
 
-const activeTab = ref('chatRoom'); // 默认激活的 Tab
+const activeTab = ref('shop'); // 默认激活的 Tab
 
 // 切换 Tab
 const changeTab = (tab) => {
