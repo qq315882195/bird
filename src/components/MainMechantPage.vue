@@ -27,8 +27,10 @@
         <p>这里是商品管理的内容。</p>
       </div>
       <div v-if="activeMenu === 'orders'" class="content-card">
-        <h2>订单管理</h2>
-        <p>这里是订单管理的内容。</p>
+        <MechantOrderList />
+      </div>
+      <div v-if="activeMenu === 'mechantOrderDetail'" class="content-card">
+        <MechantOrderDetail />
       </div>
       <div v-if="activeMenu === 'stores'" class="content-card">
         <h2>门店管理</h2>
@@ -39,7 +41,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,provide } from 'vue';
+import MechantOrderList from "@/components/MechantOrderList.vue";
+import MechantOrderDetail from "@/components/MechantOrderDetail.vue";
 
 // 菜单项
 const menus = ref([
@@ -55,6 +59,9 @@ const activeMenu = ref('index');
 const switchMenu = (menuName) => {
   activeMenu.value = menuName;
 };
+// 将 switchMenu 方法提供给子组件使用
+provide('switchMenu', switchMenu);
+
 </script>
 
 <style scoped>

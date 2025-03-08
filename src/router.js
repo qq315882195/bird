@@ -12,6 +12,8 @@ import CategoryService from "@/components/CategoryService.vue";
 import ProductDetail from "@/components/ProductDetail.vue";
 import MechantLogin from "@/components/MechantLogin.vue";
 import MainMechantPage from "@/components/MainMechantPage.vue";
+import MechantOrderList from "@/components/MechantOrderList.vue";
+import MechantOrderDetail from "@/components/MechantOrderDetail.vue";
 
 const routes = [
     { path: '/userRegister', component: UserRegister }, // 注册页面
@@ -41,6 +43,16 @@ const routes = [
         path: '/mainMechantPage',
         name: 'mainMechantPage',
         component: MainMechantPage,
+    },
+    {
+        path: '/mechantOrderList',
+        name: 'mechantOrderList',
+        component: MechantOrderList,
+    },
+    {
+        path: '/mechantOrderDetail',
+        name: 'mechantOrderDetail',
+        component: MechantOrderDetail,
     }
 ];
 
