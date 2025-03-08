@@ -9,6 +9,9 @@ import ProfileService from "@/components/ProfileService.vue";
 import OrderList from "@/components/OrderList.vue";
 import MyCart from "@/components/MyCart.vue";
 import CategoryService from "@/components/CategoryService.vue";
+import ProductDetail from "@/components/ProductDetail.vue";
+import MechantLogin from "@/components/MechantLogin.vue";
+import MainMechantPage from "@/components/MainMechantPage.vue";
 
 const routes = [
     { path: '/userRegister', component: UserRegister }, // 注册页面
@@ -18,6 +21,7 @@ const routes = [
     { path: '/orderList', component: OrderList }, // 订单页面
     { path: '/cart', component: MyCart }, // 购物车页面
     { path: '/categoryService', component: CategoryService }, // 分类页面
+    { path: '/productDetail', component: ProductDetail }, // 分类页面
     {
         path: '/shoppingService',
         name: 'shoppingService',
@@ -28,6 +32,16 @@ const routes = [
         name: 'profileService',
         component: ProfileService,
     },
+    {
+        path: '/mechantLogin',
+        name: 'mechantLogin',
+        component: MechantLogin,
+    },
+    {
+        path: '/mainMechantPage',
+        name: 'mainMechantPage',
+        component: MainMechantPage,
+    }
 ];
 
 const router = createRouter({

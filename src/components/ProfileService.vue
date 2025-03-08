@@ -2,8 +2,9 @@
   <div class="profile-container">
     <!-- 右上角图标 -->
     <div class="top-right-icons">
-      <i class="fas fa-sign-out-alt icon" @click="logout"></i>
+
       <i class="fas fa-headset icon" @click="showCustomerService"></i>
+      <i class="fas fa-sign-out-alt icon" @click="logout"></i>
     </div>
 
     <!-- 头像 -->
@@ -14,11 +15,6 @@
     <!-- 昵称 -->
     <div class="nickname">
       {{ user.nickname }}
-    </div>
-
-    <!-- 账号 -->
-    <div class="username">
-      账号: {{ user.username }}
     </div>
 
     <!-- 新增按钮：订单和退出 -->
@@ -133,11 +129,6 @@ const logout = () => {
   margin-bottom: 1.5rem;
 }
 
-.username {
-  font-size: 2rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 2rem;
-}
 
 /* 新增按钮容器样式 */
 .button-container {

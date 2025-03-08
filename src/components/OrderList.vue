@@ -1,10 +1,8 @@
 <template>
+  <div class="page-title">
+    <h2>我的订单</h2>
+  </div>
   <div class="order-container">
-    <!-- 页面标题 -->
-    <div class="page-title">
-      <h2>我的订单</h2>
-    </div>
-
     <!-- 订单列表 -->
     <div class="order-list">
       <div v-for="order in orders" :key="order.id" class="order-item">
@@ -67,6 +65,123 @@ const orders = ref([
       price: 299.99,
       image: '../assets/img.png'
     }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
+  },
+  {
+    id: '345678',
+    status: '已完成',
+    product: {
+      name: '商品名称 3',
+      price: 299.99,
+      image: '../assets/img.png'
+    }
   }
 ]);
 
@@ -104,8 +219,12 @@ const cancelOrder = (orderId) => {
   align-items: center;
   padding: 2rem;
   color: #ffffff;
+  overflow-y: auto;
+  height: calc(80vh - 120px);
 }
-
+.order-container::-webkit-scrollbar {
+  width: 0px; /* 设置滚动条宽度 */
+}
 .page-title h1 {
   font-size: 3rem;
   font-weight: bold;

@@ -30,6 +30,10 @@
       <div v-if="activeTab === 'categoryService'" class="tab-pane">
         <category-service></category-service>
       </div>
+      <!-- 我的购物车页面 -->
+      <div v-if="activeTab === 'productDetail'" class="tab-pane">
+        <product-detail></product-detail>
+      </div>
     </div>
 
     <!-- Tab 栏（固定在底部） -->
@@ -81,6 +85,7 @@ import ChatRoom from "@/components/ChatRoom.vue";
 import OrderList from "@/components/OrderList.vue";
 import MyCart from "@/components/MyCart.vue"; // 引入订单列表组件
 import CategoryService from "@/components/CategoryService.vue";
+import ProductDetail from "@/components/ProductDetail.vue";
 
 const activeTab = ref('shop'); // 默认激活的 Tab
 
@@ -151,7 +156,6 @@ h1 {
 /* ========== Tab 内容 ========== */
 .tab-content {
   flex: 1;
-  padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
 }

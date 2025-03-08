@@ -15,7 +15,7 @@
             <i class="fas fa-minus"></i>
           </button>
           <span class="quantity">{{ getCartItemQuantity(product.id) }}</span>
-          <button class="quantity-button" @click="increaseQuantity(product)">
+          <button class="quantity-button-add" @click="increaseQuantity(product)">
             <i class="fas fa-plus"></i>
           </button>
         </div>
@@ -204,7 +204,7 @@ const submitOrder = () => {
 
 .quantity-button {
   padding: 0.5rem;
-  background: #4a90e2;
+  background: #ff6b6b;
   border: none;
   border-radius: 0.3rem;
   color: #ffffff;
@@ -216,6 +216,23 @@ const submitOrder = () => {
 }
 
 .quantity-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.quantity-button-add {
+  padding: 0.5rem;
+  background: #4a90e2;
+  border: none;
+  border-radius: 0.3rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-button-add:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -233,7 +250,7 @@ const submitOrder = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 3rem;
   z-index: 1000;
 }
 
@@ -244,7 +261,7 @@ const submitOrder = () => {
 
 .checkout-button {
   padding: 0.5rem 1rem;
-  background: #00cc66;
+  background: #4a90e2;
   border: none;
   border-radius: 0.3rem;
   color: #ffffff;
