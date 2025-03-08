@@ -48,7 +48,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="order in filteredOrders" :key="order.id">
+        <tr v-for="order in paginatedOrders" :key="order.id">
           <td>{{ order.id }}</td>
           <td>{{ order.status }}</td>
           <td>￥{{ order.total }}</td>
@@ -61,6 +61,17 @@
         </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- 分页控件 -->
+    <div class="pagination">
+      <button class="pagination-button" @click="prevPage" :disabled="currentPage === 1">
+        <i class="fas fa-chevron-left"></i> 上一页
+      </button>
+      <span class="pagination-info">第 {{ currentPage }} 页 / 共 {{ totalPages }} 页</span>
+      <button class="pagination-button" @click="nextPage" :disabled="currentPage === totalPages">
+        下一页 <i class="fas fa-chevron-right"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -100,6 +111,7 @@ const orders = ref([
     total: 499.99,
     date: '2023-10-05',
   },
+  // 更多订单数据...
 ]);
 
 // 筛选条件
@@ -109,11 +121,14 @@ const filters = ref({
   date: '',
 });
 
+// 分页相关状态
+const currentPage = ref(1);
+const pageSize = ref(1); // 每页显示的订单数量
+
 // 应用筛选条件
 const applyFilters = () => {
-  console.log('应用筛选条件:', filters.value);
+  currentPage.value = 1; // 重置到第一页
 };
-
 
 // 根据筛选条件过滤订单
 const filteredOrders = computed(() => {
@@ -130,6 +145,32 @@ const filteredOrders = computed(() => {
     return matchesOrderId && matchesStatus && matchesDate;
   });
 });
+
+// 分页后的订单列表
+const paginatedOrders = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return filteredOrders.value.slice(start, end);
+});
+
+// 总页数
+const totalPages = computed(() => {
+  return Math.ceil(filteredOrders.value.length / pageSize.value);
+});
+
+// 上一页
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+// 下一页
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
 
 // 查看订单详情
 const switchMenu = inject('switchMenu');
@@ -175,7 +216,9 @@ label {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.8);
 }
-
+#date, #status {
+  cursor: pointer;
+}
 input,
 select {
   padding: 0.5rem;
@@ -205,10 +248,6 @@ select:focus {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.filter-button.reset {
-  background: #ff6b6b;
 }
 
 .filter-button:hover {
@@ -272,10 +311,6 @@ tr:hover {
   background: #4a90e2;
 }
 
-.action-button.update {
-  background: #00cc66;
-}
-
 .action-button:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
@@ -283,5 +318,42 @@ tr:hover {
 
 .action-button:active {
   transform: translateY(0);
+}
+
+/* 分页控件 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  background: #4a90e2;
+  border: none;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-button:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.pagination-info {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
 }
 </style>

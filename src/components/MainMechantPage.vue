@@ -7,7 +7,8 @@
         <div
             v-for="menu in menus"
             :key="menu.name"
-            :class="['menu-item', { active: activeMenu === menu.name }]"
+            :class="['menu-item', { active: activeMenu === menu.name
+                    ||(activeMenu === 'mechantOrderDetail' && menu.name === 'orders') }]"
             @click="switchMenu(menu.name)"
         >
           <i :class="menu.icon"></i>
@@ -47,8 +48,9 @@ import MechantOrderDetail from "@/components/MechantOrderDetail.vue";
 
 // 菜单项
 const menus = ref([
-  { name: 'products', label: '商品管理', icon: 'fas fa-box' },
+
   { name: 'orders', label: '订单管理', icon: 'fas fa-shopping-cart' },
+  { name: 'products', label: '商品管理', icon: 'fas fa-box' },
   { name: 'stores', label: '门店管理', icon: 'fas fa-store' },
 ]);
 
