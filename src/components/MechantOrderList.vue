@@ -40,6 +40,7 @@
       <table>
         <thead>
         <tr>
+          <th>序号</th>
           <th>订单号</th>
           <th>状态</th>
           <th>总价</th>
@@ -48,7 +49,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="order in paginatedOrders" :key="order.id">
+        <tr v-for="(order,index) in paginatedOrders" :key="order.id">
+          <td>{{ index+1 }}</td>
           <td>{{ order.id }}</td>
           <td>{{ order.status }}</td>
           <td>￥{{ order.total }}</td>
@@ -111,6 +113,114 @@ const orders = ref([
     total: 499.99,
     date: '2023-10-05',
   },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  },
+  {
+    id: 5,
+    status: '已发货',
+    total: 499.99,
+    date: '2023-10-05',
+  }
   // 更多订单数据...
 ]);
 
@@ -123,7 +233,7 @@ const filters = ref({
 
 // 分页相关状态
 const currentPage = ref(1);
-const pageSize = ref(1); // 每页显示的订单数量
+const pageSize = ref(20); // 每页显示的订单数量
 
 // 应用筛选条件
 const applyFilters = () => {
@@ -190,7 +300,9 @@ provide('switchMenu', switchMenu);
   height: 100vh;
   overflow-y: auto;
 }
-
+.order-list-container::-webkit-scrollbar {
+  width: 0px; /* 设置滚动条宽度 */
+}
 .order-list-title {
   font-size: 2rem;
   font-weight: bold;

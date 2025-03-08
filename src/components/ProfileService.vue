@@ -73,6 +73,7 @@ const logout = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       // 用户点击了确定按钮
+      localStorage.removeItem('chatToken');
       router.push('/'); // 假设登录页面的路由是 '/login'
     }
   });
@@ -156,6 +157,7 @@ const logout = () => {
 
 .profile-button i {
   font-size: 1.2rem;
+  padding: 0 0.5rem 0 0;
 }
 
 .out-button {

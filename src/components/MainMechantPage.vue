@@ -147,6 +147,9 @@ provide('switchMenu', switchMenu);
   padding: 2rem;
   overflow-y: auto;
 }
+.content-container::-webkit-scrollbar {
+  width: 0px; /* 设置滚动条宽度 */
+}
 
 .content-card {
   background: rgba(255, 255, 255, 0.1);
