@@ -67,7 +67,7 @@ const setUsername = async () => {
       // 处理响应
       if (response.data.code==="0000" && response.data.data) {
         username.value = response.data.data.name;
-        router.push('/chatRoom'); // 跳转到聊天室页面
+        router.push('/mainPage'); // 跳转到聊天室页面
       } else if(response.data.code==="0001"||response.data.code==="1001"){
         Swal.fire({
           icon: 'error',

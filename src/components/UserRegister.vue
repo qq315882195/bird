@@ -196,7 +196,7 @@ const userRegister = async () => {
 
     // 验证码通过后，发送注册请求
     const registerResponse = await axios.post('http://localhost:8082/account/createAccount', {
-      username: username.value.trim(),
+      name: username.value.trim(),
       password: password.value.trim(),
       account: account.value.trim(),
       phone: phone.value.trim(),
