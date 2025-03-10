@@ -1,3 +1,4 @@
+<!-- MechantStoreList.vue -->
 <template>
   <div class="store-list-container">
     <h2 class="store-list-title">门店管理</h2>
@@ -21,6 +22,10 @@
       </div>
       <button class="filter-button" @click="search">
         <i class="fas fa-search"></i> 查询
+      </button>
+      <!-- 添加按钮 -->
+      <button class="add-button" @click="addStore">
+        <i class="fas fa-plus"></i> 添加门店
       </button>
     </div>
 
@@ -46,6 +51,9 @@
             <button class="action-button view" @click="viewStore(store.id)">
               <i class="fas fa-eye"></i> 查看
             </button>
+            <button class="action-button edit" @click="editStore(store.id)">
+              <i class="fas fa-edit"></i> 修改
+            </button>
           </td>
         </tr>
         </tbody>
@@ -64,9 +72,8 @@
     </div>
   </div>
 </template>
-
 <script setup>
-import {ref, inject} from 'vue';
+import {ref, inject, onMounted} from 'vue';
 import axios from "axios";
 
 
@@ -124,14 +131,61 @@ const nextPage = () => {
 
 // 查看门店详情
 const viewStore = async (selectedStoreId) => {
-  switchMenu('storeDetail', {  selectedStoreId }); // 传递门店ID
+  const commonParams={mode: 'view',selectedStoreId:selectedStoreId};
+  switchMenu('storeDetail', commonParams); // 传递门店ID
 };
 
 // 获取父组件提供的 changeTab 方法
 const switchMenu = inject('switchMenu');
+
+// MechantStoreList.vue
+const addStore = () => {
+  const commonParams={mode:'add'};
+  switchMenu('storeDetail', commonParams); // 切换到添加模式
+};
+
+const editStore = (storeId) => {
+  const commonParams={ mode: 'edit', selectedStoreId: storeId };
+  switchMenu('storeDetail',commonParams ); // 切换到编辑模式并传递门店ID
+};
+onMounted(()=>{
+  search();
+});
 </script>
 
 <style scoped>
+/* MechantStoreList.vue */
+.add-button {
+  padding: 0.5rem 1rem;
+  background: #4a90e2;
+  border: none;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.add-button:active {
+  transform: translateY(0);
+}
+
+.action-button.edit {
+  background: #ffc107;
+  margin-left: 0.5rem;
+}
+
+.action-button.delete {
+  background: #dc3545;
+  margin-left: 0.5rem;
+}
 .store-list-container {
   padding: 2rem;
   color: #ffffff;
@@ -252,7 +306,7 @@ tr:hover {
   color: #ffffff;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease;
-  display: flex;
+
   align-items: center;
   gap: 0.5rem;
 }
