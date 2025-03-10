@@ -59,14 +59,18 @@ const menus = ref([
 
 // 当前选中的菜单
 const activeMenu = ref('index');
-
+const selectedStoreId = ref(null); // 用于存储选中的门店ID
 // 切换菜单
-const switchMenu = (menuName) => {
+const switchMenu = (menuName, params = {}) => {
   activeMenu.value = menuName;
+  console.log("params",params);
+  if (params.selectedStoreId) {
+    selectedStoreId.value = params.selectedStoreId; // 存储门店ID
+  }
 };
 // 将 switchMenu 方法提供给子组件使用
 provide('switchMenu', switchMenu);
-
+provide('selectedStoreId', selectedStoreId);
 </script>
 
 <style scoped>

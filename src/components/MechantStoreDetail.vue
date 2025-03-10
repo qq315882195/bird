@@ -21,38 +21,24 @@
         <label>地址</label>
         <span>{{ store.address }}</span>
       </div>
-      <div class="info-group">
-        <label>状态</label>
-        <span>{{ store.status }}</span>
-      </div>
-      <div class="info-group">
-        <label>创建日期</label>
-        <span>{{ store.createDate }}</span>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import {ref, onMounted, inject} from 'vue';
-import { useRouter } from 'vue-router';
 import axios from 'axios';
 
-const router = useRouter();
 const store = ref({});
 // 获取父组件提供的 changeTab 方法
 const switchMenu = inject('switchMenu');
-
+const selectedStoreId = inject('selectedStoreId'); // 获取选中的门店ID
 // 获取门店详情
 const fetchStoreDetail = async () => {
-  const storeId = router.currentRoute.value.query.id; // 从路由参数中获取门店ID
-  if (!storeId) {
-    console.error('门店ID不存在');
-    return;
-  }
+
   try {
     const response = await axios.post('http://localhost:8084/store/getStore', {
-      id: storeId,
+      id: selectedStoreId.value,
     }, {
       headers: {
         'Content-Type': 'application/json',

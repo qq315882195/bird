@@ -4,33 +4,14 @@
     <!-- 筛选条件区域 -->
     <div class="filter-section">
       <div class="filter-group">
-        <label for="orderId">订单号</label>
+        <label for="orderNo">订单号</label>
         <input
             type="text"
-            id="orderId"
-            v-model="filters.orderId"
+            id="orderNo"
             placeholder="输入订单号"
         />
       </div>
-      <div class="filter-group">
-        <label for="status">状态</label>
-        <select id="status" v-model="filters.status">
-          <option value="">全部</option>
-          <option value="已发货">已发货</option>
-          <option value="待发货">待发货</option>
-          <option value="已完成">已完成</option>
-          <option value="已取消">已取消</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label for="date">日期</label>
-        <input
-            type="date"
-            id="date"
-            v-model="filters.date"
-        />
-      </div>
-      <button class="filter-button" @click="applyFilters">
+      <button class="filter-button" @click="search">
         <i class="fas fa-search"></i> 查询
       </button>
     </div>
@@ -49,14 +30,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(order,index) in paginatedOrders" :key="order.id">
+        <tr v-for="(order,index) in orders" :key="order.id">
           <td>{{ index+1 }}</td>
-          <td>{{ order.id }}</td>
+          <td>{{ order.orderNo }}</td>
           <td>{{ order.status }}</td>
-          <td>￥{{ order.total }}</td>
-          <td>{{ order.date }}</td>
+          <td>￥{{ order.amount }}</td>
+          <td>{{ order.created }}</td>
           <td>
-            <button class="action-button view" @click="viewOrder(order)">
+            <button class="action-button view" @click="viewOrder(order.id)">
               <i class="fas fa-eye"></i> 查看
             </button>
           </td>
@@ -67,7 +48,7 @@
 
     <!-- 分页控件 -->
     <div class="pagination">
-      <button class="pagination-button" @click="prevPage" :disabled="currentPage === 1">
+      <button class="pagination-button" @click="prevPage" :disabled="currentPage === 1 || currentPage===0">
         <i class="fas fa-chevron-left"></i> 上一页
       </button>
       <span class="pagination-info">第 {{ currentPage }} 页 / 共 {{ totalPages }} 页</span>
@@ -79,7 +60,8 @@
 </template>
 
 <script setup>
-import { ref, computed,inject,provide } from 'vue';
+import { ref,inject } from 'vue';
+import axios from "axios";
 
 // 订单列表数据
 const orders = ref([
@@ -224,55 +206,44 @@ const orders = ref([
   // 更多订单数据...
 ]);
 
-// 筛选条件
-const filters = ref({
-  orderId: '',
-  status: '',
-  date: '',
-});
-
 // 分页相关状态
-const currentPage = ref(1);
-const pageSize = ref(20); // 每页显示的订单数量
-
+const currentPage = ref(0);
+const pageSize = ref(10); // 每页显示的订单数量
+const totalPages= ref(0); // 页数量
 // 应用筛选条件
-const applyFilters = () => {
-  currentPage.value = 1; // 重置到第一页
+const search = async () => {
+  //获取code的值
+  const orderNo = document.getElementById('orderNo').value;
+  try {
+    const axiosResponse = await axios.post('http://localhost:8083/order/getStoreListByPage', {
+      orderNo: l,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    if (axiosResponse.data.code ==="0000"){
+      currentPage.value = axiosResponse.data.data.current;
+      pageSize.value = axiosResponse.data.data.size;
+      orders.value= axiosResponse.data.data.records;
+      // 总页数
+      totalPages.value=axiosResponse.data.data.pages;
+      if (axiosResponse.data.data.total===0){
+        currentPage.value=0;
+      }
+    }
+  }catch (e) {
+    console.log(e);
+  }
 };
 
-// 根据筛选条件过滤订单
-const filteredOrders = computed(() => {
-  return orders.value.filter((order) => {
-    const matchesOrderId = filters.value.orderId
-        ? order.id.toString().includes(filters.value.orderId)
-        : true;
-    const matchesStatus = filters.value.status
-        ? order.status === filters.value.status
-        : true;
-    const matchesDate = filters.value.date
-        ? order.date === filters.value.date
-        : true;
-    return matchesOrderId && matchesStatus && matchesDate;
-  });
-});
-
-// 分页后的订单列表
-const paginatedOrders = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  return filteredOrders.value.slice(start, end);
-});
-
-// 总页数
-const totalPages = computed(() => {
-  return Math.ceil(filteredOrders.value.length / pageSize.value);
-});
 
 // 上一页
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
   }
+  search();
 };
 
 // 下一页
@@ -280,6 +251,7 @@ const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++;
   }
+  search();
 };
 
 // 查看订单详情
@@ -289,8 +261,6 @@ const viewOrder = () => {
     switchMenu('mechantOrderDetail'); // 切换到订单列表 Tab
   }
 };
-// 将 switchMenu 方法提供给子组件使用
-provide('switchMenu', switchMenu);
 </script>
 
 <style scoped>

@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import {ref, inject, provide} from 'vue';
+import {ref, inject} from 'vue';
 import axios from "axios";
 
 
@@ -123,13 +123,12 @@ const nextPage = () => {
 };
 
 // 查看门店详情
-const viewStore = async (id) => {
-  switchMenu("storeDetail",id);
+const viewStore = async (selectedStoreId) => {
+  switchMenu('storeDetail', {  selectedStoreId }); // 传递门店ID
 };
 
 // 获取父组件提供的 changeTab 方法
 const switchMenu = inject('switchMenu');
-provide("switchMenu", switchMenu);
 </script>
 
 <style scoped>
