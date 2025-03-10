@@ -1,5 +1,5 @@
 # chat-room
-
+商城页面+运营端+管理端
 ## Project setup
 ```
 npm install
