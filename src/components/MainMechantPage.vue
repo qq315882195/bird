@@ -24,8 +24,7 @@
         <p>这里是主页的内容。</p>
       </div>
       <div v-if="activeMenu === 'products'" class="content-card">
-        <h2>商品管理</h2>
-        <p>这里是商品管理的内容。</p>
+
       </div>
       <div v-if="activeMenu === 'orders'" class="content-card">
         <MechantOrderList />
@@ -34,8 +33,10 @@
         <MechantOrderDetail />
       </div>
       <div v-if="activeMenu === 'stores'" class="content-card">
-        <h2>门店管理</h2>
-        <p>这里是用户管理的内容。</p>
+        <mechant-store-list></mechant-store-list>
+      </div>
+      <div v-if="activeMenu === 'storeDetail'" class="content-card">
+        <mechant-store-detail></mechant-store-detail>
       </div>
     </div>
   </div>
@@ -45,6 +46,8 @@
 import { ref,provide } from 'vue';
 import MechantOrderList from "@/components/MechantOrderList.vue";
 import MechantOrderDetail from "@/components/MechantOrderDetail.vue";
+import MechantStoreList from "@/components/MechantStoreList.vue";
+import MechantStoreDetail from "@/components/MechantStoreDetail.vue";
 
 // 菜单项
 const menus = ref([

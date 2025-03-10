@@ -14,6 +14,8 @@ import MechantLogin from "@/components/MechantLogin.vue";
 import MainMechantPage from "@/components/MainMechantPage.vue";
 import MechantOrderList from "@/components/MechantOrderList.vue";
 import MechantOrderDetail from "@/components/MechantOrderDetail.vue";
+import MechantStoreList from "@/components/MechantStoreList.vue";
+import MechantStoreDetail from "@/components/MechantStoreDetail.vue";
 
 const routes = [
     { path: '/userRegister', component: UserRegister }, // 注册页面
@@ -23,7 +25,12 @@ const routes = [
     { path: '/orderList', component: OrderList }, // 订单页面
     { path: '/cart', component: MyCart }, // 购物车页面
     { path: '/categoryService', component: CategoryService }, // 分类页面
-    { path: '/productDetail', component: ProductDetail }, // 分类页面
+    { path: '/productDetail', component: ProductDetail }, // 商品详情页面
+    { path: '/mechantStoreList', component: MechantStoreList }, // 门店列表页面
+    {
+        path: '/mechantStoreDetail',
+        component: MechantStoreDetail,
+    },
     {
         path: '/shoppingService',
         name: 'shoppingService',
