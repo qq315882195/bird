@@ -216,7 +216,7 @@ const search = async () => {
   const orderNo = document.getElementById('orderNo').value;
   try {
     const axiosResponse = await axios.post('http://localhost:8083/order/getStoreListByPage', {
-      orderNo: l,
+      orderNo: orderNo,
     }, {
       headers: {
         'Content-Type': 'application/json',
