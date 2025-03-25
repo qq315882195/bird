@@ -227,7 +227,7 @@
         <mxCell id="2O-sriZt3ZD7cJximviD-79" value="AI大模型&lt;br&gt;可以接入很多AI厂商" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1670" y="590" width="160" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="2O-sriZt3ZD7cJximviD-80" value="开放平台，提供api给别人的系统调用，方便人的系统接入我们的平台" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="2O-sriZt3ZD7cJximviD-80" value="开放平台，提供api给别人的系统调用，方便别人的系统接入我们的平台" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1670" y="740" width="160" height="120" as="geometry" />
         </mxCell>
         <mxCell id="2O-sriZt3ZD7cJximviD-88" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.519;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="2O-sriZt3ZD7cJximviD-2" edge="1">
@@ -237,13 +237,13 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="2O-sriZt3ZD7cJximviD-89" value="&lt;div&gt;web&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;商家管理端&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;商家运营端&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="10" y="440" width="70" height="180" as="geometry" />
+          <mxGeometry x="10" y="340" width="70" height="160" as="geometry" />
         </mxCell>
         <mxCell id="2O-sriZt3ZD7cJximviD-90" value="app" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="10" y="195" width="70" height="175" as="geometry" />
+          <mxGeometry x="10" y="170" width="70" height="120" as="geometry" />
         </mxCell>
         <mxCell id="2O-sriZt3ZD7cJximviD-91" value="小程序" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="10" y="700" width="70" height="167.5" as="geometry" />
+          <mxGeometry x="10" y="542.5" width="70" height="167.5" as="geometry" />
         </mxCell>
         <mxCell id="2O-sriZt3ZD7cJximviD-93" value="爬虫" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1670" y="440" width="160" height="120" as="geometry" />
@@ -280,6 +280,27 @@
         </mxCell>
         <mxCell id="cS2FEnn-bPybQkZql8Qn-3" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;技术团队：&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="-140" y="993" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-4" value="" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="2100" y="145" width="175" height="770" as="geometry" />
+        </mxCell>
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-6" value="支付" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2128" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-7" value="物流系统" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2128" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-8" value="合作电商时，三方平台想要查询我们系统和他们相关的订单数据" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2127.5" y="650" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-9" value="" style="endArrow=classic;html=1;rounded=0;exitX=-0.019;exitY=0.852;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="cS2FEnn-bPybQkZql8Qn-4" target="2O-sriZt3ZD7cJximviD-80">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1820" y="660" as="sourcePoint" />
+            <mxPoint x="1870" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-12" value="一体机" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="10" y="750" width="70" height="130" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
