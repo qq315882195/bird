@@ -274,10 +274,10 @@
         <mxCell id="cS2FEnn-bPybQkZql8Qn-4" value="" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="2100" y="145" width="175" height="770" as="geometry" />
         </mxCell>
-        <mxCell id="cS2FEnn-bPybQkZql8Qn-6" value="支付" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-6" value="支付回调" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="2128" y="240" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="cS2FEnn-bPybQkZql8Qn-7" value="物流系统" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="cS2FEnn-bPybQkZql8Qn-7" value="物流系统回调" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="2128" y="420" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="cS2FEnn-bPybQkZql8Qn-8" value="合作电商时，三方平台想要查询我们系统和他们相关的订单数据" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
